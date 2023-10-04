@@ -88,7 +88,6 @@ export const createManager = async (userData: CreateManagerType): ServicesExport
       statusCode: 200,
     };
   } catch (error: any) {
-    console.log(error.message);
     if (error.message.includes("Manager_email_key"))
       return {
         data: null,

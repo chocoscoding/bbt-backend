@@ -86,11 +86,12 @@ model OTP {
 
 model Style{
     id String @id @default(auto()) @map("_id") @db.ObjectId
-    name String
+    name String @unique
     description String
     stylePictures String[]
     categoryId String @db.ObjectId
     averageTime Int
+    note String?
     category Category @relation(fields: [categoryId], references: [id])
 }
 

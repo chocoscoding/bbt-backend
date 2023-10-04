@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest Auth.test.ts && jest Category.test.ts && jest  Styles.test.ts",
     "dev": "nodemon src/index.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"
@@ -36,7 +36,7 @@
     "@types/lodash.merge": "^4.6.7",
     "@types/morgan": "^1.9.6",
     "@types/node": "^20.8.0",
-    "prisma": "^5.3.1",
+    "prisma": "^5.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }

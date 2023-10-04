@@ -22,7 +22,7 @@ describe("auth service", () => {
     expect(statusCode).toBe(200);
     expect(message).toBe("");
     expect(error).toBe(null);
-  },6000);
+  });
 
   test("should create a new manager", async () => {
     const testdata = {

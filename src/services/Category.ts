@@ -27,7 +27,7 @@ export const createCategory = async ({ name, coverImage }: CreateCategoryInputTy
     let errormessage = "";
     let errorCode = 404;
     if (error.message.includes("Category_name_key")) {
-      errormessage = "Name already exists";
+      errormessage = "Category name already exists";
       errorCode = 400;
     }
     return {
@@ -96,8 +96,6 @@ export const getOneCategory = async ({ name }: GetOneCategoryInputType): Service
 };
 
 export const editOneCategory = async ({ id, data }: CategoryEditInputType): ServicesExportType<Category> => {
-  let newMessage = null;
-  let newStatusCode;
   try {
     const { coverImage, name } = data;
     const category = await prisma.category.update({
@@ -114,14 +112,21 @@ export const editOneCategory = async ({ id, data }: CategoryEditInputType): Serv
       statusCode: 200,
     };
   } catch (error: any) {
+    let errormessage = null;
+    let newStatusCode = 404;
     if (error.message.includes("Record to update not found")) {
-      newMessage = "Category to update not found";
+      errormessage = "Category to update not found";
+      newStatusCode = 400;
+    }
+    if (error.message.includes("Category_name_key")) {
+      errormessage = "Category name already exists";
+      newStatusCode = 400;
     }
     return {
       data: null,
       error: "",
-      message: newMessage || "",
-      statusCode: 404,
+      message: errormessage || "",
+      statusCode: newStatusCode,
     };
   }
 };
