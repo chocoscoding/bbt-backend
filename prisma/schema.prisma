@@ -22,7 +22,23 @@ model User {
 
 
     emailVerified Boolean @default(false)
+    accounts Account[]
+}
+model Manager {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    email String @unique
+    firstname String
+    lastname String
+    password String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+    dateOfBirth String
+    profilePicture String
+    addresses address[]
+    accountType AccountType @default(USER)
 
+
+    emailVerified Boolean @default(false)
     accounts Account[]
 }
 
@@ -41,7 +57,8 @@ type address {
 
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
+  userId            String?  @db.ObjectId
+  managerId            String?  @db.ObjectId
   type              String
   provider          String
   providerAccountId String
@@ -53,9 +70,18 @@ model Account {
   id_token          String? @db.String
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  manager Manager? @relation(fields: [managerId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model OTP {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    code Int
+    userId String @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
 }
 
 model Style{
@@ -116,4 +142,9 @@ enum SenderType {
 }
 model Gallery {
     id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Images {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    src String
 }
