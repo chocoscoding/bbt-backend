@@ -1,0 +1,119 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url = env("DATABASE_URL")
+}
+
+model User {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    email String @unique
+    firstname String
+    lastname String
+    password String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+    dateOfBirth String
+    profilePicture String
+    addresses address[]
+    accountType AccountType @default(USER)
+
+
+    emailVerified Boolean @default(false)
+
+    accounts Account[]
+}
+
+enum AccountType {
+    ADMIN
+    USER
+}
+
+type address {
+    street String
+    city String
+    state String
+    country String
+    zipCode String
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String  @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Style{
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
+    description String
+    stylePictures String[]
+    categoryId String @db.ObjectId
+    category Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category{
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
+    styles Style[]
+}
+model Booking {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    customerId String @db.ObjectId
+    scheduledDate DateTime
+    styleId String @db.ObjectId
+    bookingStatus BookingStatus @default(PENDING)
+    paymentStatus BookingStatus @default(PENDING)
+    
+}
+enum PaymentStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+}
+enum BookingStatus {
+    PENDING
+    APPROVED
+    CANCLED
+    REJECTED
+    COMPLETED
+}
+model Review {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    styleId String @db.ObjectId
+    rating Int @default(5) 
+}
+model Ticket {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    customerId String @db.ObjectId
+    handlerId String? @db.ObjectId
+}
+model Message {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    ticketId String @db.ObjectId
+    senderId String @db.ObjectId
+    senderType SenderType @default(USER)
+}
+
+enum SenderType {
+    USER
+    ADMIN
+}
+model Gallery {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+}
