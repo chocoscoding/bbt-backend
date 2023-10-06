@@ -1,5 +1,5 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import * as Service from "../services/Auth";
+import * as Service from "../../services/Auth";
 
 export const userSignup = async (req: Request, res: any, next: NextFunction) => {
   try {

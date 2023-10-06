@@ -1,4 +1,4 @@
-import * as Service from "../services/Style";
+import * as Service from "../../services/Style";
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 export const createNewStyle = async (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +15,7 @@ export const createNewStyle = async (req: Request, res: Response, next: NextFunc
 export const getAllStyles = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = ~~(req.query.page as string);
-    const { data, error, statusCode, message } = await Service.getAllStyles({ page: page || 1 });
+    const { data, error, statusCode, message } = await Service.getAllStyles(page || 1);
     res.status(statusCode);
     res.json({ data, error, message });
     return;
@@ -26,7 +26,7 @@ export const getAllStyles = async (req: Request, res: Response, next: NextFuncti
 
 export const getStyleByName = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { data, error, statusCode, message } = await Service.getOneStyle(req.params as { name: string });
+    const { data, error, statusCode, message } = await Service.getOneStyle(req.params.name as string);
     res.status(statusCode);
     res.json({ data, error, message });
     return;
@@ -48,7 +48,7 @@ export const editOneStyleById = async (req: Request, res: Response, next: NextFu
 
 export const deleteOneStyleById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { data, error, statusCode, message } = await Service.deleteOneStyle({ id: req.params.id });
+    const { data, error, statusCode, message } = await Service.deleteOneStyle(req.params.id);
     res.status(statusCode);
     res.json({ data, error, message });
     return;
@@ -60,7 +60,7 @@ export const deleteOneStyleById = async (req: Request, res: Response, next: Next
 export const deleteMultipleStylesById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ids = req.body.ids as string[];
-    const { data, error, statusCode, message } = await Service.deleteMultipleStyles({ ids });
+    const { data, error, statusCode, message } = await Service.deleteMultipleStyles(ids);
     res.status(statusCode);
     res.json({ data, error, message });
     return;

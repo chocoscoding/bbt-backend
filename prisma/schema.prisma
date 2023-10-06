@@ -38,11 +38,10 @@ model Manager {
     updatedAt DateTime @default(now())
     dob String
     accountType AccountType @default(ADMIN)
-    username String
     image String?
+    preferredTheme Theme @default(LIGHT)
 
     emailVerified Boolean @default(false)
-    accounts Account[]
 }
 
 enum AccountType {
@@ -75,8 +74,6 @@ model Account {
   session_state     String?
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  manager Manager? @relation(fields: [managerId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 

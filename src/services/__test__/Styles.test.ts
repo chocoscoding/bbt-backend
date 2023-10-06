@@ -68,16 +68,14 @@ describe("style service", () => {
     expect(statusCode).toBe(404);
   });
   test("should get one style", async () => {
-    const testdata = {
-      name: "styletest4",
-    };
+    const testdata = "styletest4";
 
     const { data, statusCode } = await Styles.getOneStyle(testdata);
     expect(data?.name).toBe("styletest4");
     expect(statusCode).toBe(200);
   });
   test("should get multiple styles", async () => {
-    const { data, statusCode } = await Styles.getAllStyles({ page: 1 });
+    const { data, statusCode } = await Styles.getAllStyles(1);
 
     const testStyles = data?.filter((ele) => ele.name.includes("styletest"));
     expect(testStyles?.length).toBeGreaterThan(2);
@@ -86,9 +84,7 @@ describe("style service", () => {
   test("should search for styles", async () => {});
 
   test("should delete one style", async () => {
-    const testdata = {
-      id: styleId,
-    };
+    const testdata = styleId;
     const { message, statusCode } = await Styles.deleteOneStyle(testdata);
     expect(message).toBe("Style delete successfully");
     expect(statusCode).toBe(200);
@@ -100,9 +96,7 @@ describe("style service", () => {
     });
     const styleIds = idLists.map((ele) => ele.id);
 
-    const testdata = {
-      ids: styleIds,
-    };
+    const testdata = styleIds;
     const { message, statusCode } = await Styles.deleteMultipleStyles(testdata);
     expect(message).toBe("Styles delete successfully");
     expect(statusCode).toBe(200);

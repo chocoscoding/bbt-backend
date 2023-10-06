@@ -1,4 +1,4 @@
-import * as CategoryService from "../services/Category";
+import * as CategoryService from "../../services/Category";
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 export const createNewCategory = async (req: Request, res: Response, next: NextFunction) => {

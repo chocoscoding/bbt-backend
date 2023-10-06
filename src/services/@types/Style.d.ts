@@ -11,21 +11,6 @@ interface CreateStyleInput {
 interface EditStyleInput extends Partial<CreateStyleInput> {
   id: string;
 }
-
-interface DeleteStyleInput {
-  id: string;
-}
-interface DeleteManyStylesInput {
-  ids: string[];
-}
-
-interface GetOneStyleInput {
-  name: string
-}
-interface GetStylesInput {
-  page: number;
-}
-
 interface SearchStyleInput {
   searchQuery: string;
 }

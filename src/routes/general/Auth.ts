@@ -1,8 +1,8 @@
 import { Router } from "express";
-import * as Controller from "../controllers/AuthController";
-import { handleInputError } from "../middleware/ErrorHandler";
-import { loginMiddleware, resetPasswordMiddleware, signupMiddleware } from "../middleware/InputMiddlewareChaining";
-import { protectedRoute, isManager } from "../middleware/ProtectedRoute";
+import * as Controller from "../../controllers/General/AuthController";
+import { handleInputError } from "../../middleware/ErrorHandler";
+import { loginMiddleware, resetPasswordMiddleware, signupMiddleware } from "../../middleware/InputMiddlewareChaining";
+import { protectedRoute, isManager } from "../../middleware/ProtectedRoute";
 
 const router = Router();
 

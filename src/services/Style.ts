@@ -1,20 +1,12 @@
 import prisma from "../db";
 import { ServicesExportType } from "../../@types";
-import {
-  CreateStyleInput,
-  DeleteManyStylesInput,
-  DeleteStyleInput,
-  EditStyleInput,
-  GetOneStyleInput,
-  GetStylesInput,
-  SearchStyleInput,
-} from "./@types/Style";
+import { CreateStyleInput, EditStyleInput, SearchStyleInput } from "./@types/Style";
 import { Style } from "@prisma/client";
 
 const paginationAmount = 30;
 //create a style
 export const createStyle = async (data: CreateStyleInput): ServicesExportType<Style> => {
-  const { name, description, stylePictures, averageTime, categoryName, note,coverPicture } = data;
+  const { name, description, stylePictures, averageTime, categoryName, note, coverPicture } = data;
   try {
     //find a category by name
     const findCategory = await prisma.category.findUnique({
@@ -71,7 +63,7 @@ export const createStyle = async (data: CreateStyleInput): ServicesExportType<St
 //edit one style
 export const editOneStyle = async (data: EditStyleInput): ServicesExportType<Style> => {
   try {
-    const { id, name, description, stylePictures,coverPicture, averageTime, categoryName, note } = data;
+    const { id, name, description, stylePictures, coverPicture, averageTime, categoryName, note } = data;
     let categoryId = undefined;
     if (categoryName) {
       //if the category name is provided
@@ -117,34 +109,34 @@ export const editOneStyle = async (data: EditStyleInput): ServicesExportType<Sty
     };
   } catch (error: any) {
     console.log(error);
-    let errormessage = null;
-    let newStatusCode = 404;
+    let message = "";
+    let statusCode = 404;
 
     //if there is no style to update
     if (error.message.includes("Record to update not found")) {
-      errormessage = "Style to update not found";
-      newStatusCode = 400;
+      message = "Style to update not found";
+      statusCode = 400;
     }
     //if the style name already exists
     if (error.message.includes("Style_name_key")) {
-      errormessage = "Style name already exists";
-      newStatusCode = 400;
+      message = "Style name already exists";
+      statusCode = 400;
     }
     return {
       data: null,
       error: "",
-      message: errormessage || "",
-      statusCode: newStatusCode,
+      message,
+      statusCode,
     };
   }
 };
 
 //delete a style
-export const deleteOneStyle = async (data: DeleteStyleInput): ServicesExportType<any> => {
+export const deleteOneStyle = async (id: string): ServicesExportType<any> => {
   let newMessage = null;
   try {
-    const style = await prisma.style.delete({
-      where: { id: data.id },
+    await prisma.style.delete({
+      where: { id },
     });
     return {
       data: null,
@@ -159,7 +151,7 @@ export const deleteOneStyle = async (data: DeleteStyleInput): ServicesExportType
     }
     return {
       data: null,
-      error: "",
+      error: error.message,
       message: newMessage || "",
       statusCode: 404,
     };
@@ -167,13 +159,13 @@ export const deleteOneStyle = async (data: DeleteStyleInput): ServicesExportType
 };
 
 //delete multiple styles
-export const deleteMultipleStyles = async (data: DeleteManyStylesInput): ServicesExportType<any> => {
+export const deleteMultipleStyles = async (ids: string[]): ServicesExportType<any> => {
   let newMessage = null;
   try {
     const style = await prisma.style.deleteMany({
       where: {
         id: {
-          in: data.ids,
+          in: ids,
         },
       },
     });
@@ -198,12 +190,11 @@ export const deleteMultipleStyles = async (data: DeleteManyStylesInput): Service
 };
 
 //get one style
-export const getOneStyle = async (data: GetOneStyleInput): ServicesExportType<any> => {
+export const getOneStyle = async (name: string): ServicesExportType<any> => {
   let message = "";
   try {
-    const { name } = data;
     const style = await prisma.style.findUnique({
-      where: { name: data.name },
+      where: { name },
       include: {
         category: true,
       },
@@ -229,8 +220,7 @@ export const getOneStyle = async (data: GetOneStyleInput): ServicesExportType<an
   }
 };
 
-export const getAllStyles = async (data: GetStylesInput): ServicesExportType<Style[]> => {
-  const { page } = data;
+export const getAllStyles = async (page: number): ServicesExportType<Style[]> => {
   try {
     const style = await prisma.style.findMany({
       skip: (page - 1) * paginationAmount,

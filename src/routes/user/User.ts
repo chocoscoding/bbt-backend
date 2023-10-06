@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { protectedRoute } from "../middleware/ProtectedRoute";
+import { protectedRoute } from "../../middleware/ProtectedRoute";
 
 const router = Router();
 
