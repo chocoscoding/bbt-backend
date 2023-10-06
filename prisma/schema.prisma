@@ -32,11 +32,10 @@ model Manager {
     password String
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
-    dateOfBirth String
-    profilePicture String
-    addresses address[]
-    accountType AccountType @default(USER)
-
+    dob String
+    accountType AccountType @default(ADMIN)
+    username String
+    image String?
 
     emailVerified Boolean @default(false)
     accounts Account[]

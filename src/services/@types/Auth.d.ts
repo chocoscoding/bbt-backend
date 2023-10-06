@@ -1,8 +1,8 @@
-import { Manager } from "@prisma/client";
+import { AccountType, Manager } from "@prisma/client";
 
 interface JWT_UserType {
   id: string;
-  accountType: Manager["accountType"];
+  accountType: AccountType;
   username: string;
 }
 
@@ -21,17 +21,19 @@ interface CreateUserType {
   firstname: string;
   lastname: string;
   dob: string;
-  accountType: "USER" | "ADMIN";
+  accountType?: "USER" | "ADMIN";
   username: string;
   image: string;
 }
-
+interface CreateManagerType extends Omit<CreateUserType, "accountType"> {
+  accountType: "OWNER" | "ADMIN";
+}
 interface LoginUserType {
   email: string;
   password: string;
 }
 interface ResetPasswordUserType {
-  id: string;
+  id?: string;
   oldPassword: string;
   newPassword: string;
 }

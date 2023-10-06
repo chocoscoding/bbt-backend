@@ -16,7 +16,6 @@ export const managerSignupMiddleware = [
   body("firstname").exists().isString(),
   body("lastname").exists().isString(),
   body("dob").exists().isString(),
-  body("accountType").equals("ADMIN"),
   handleInputError,
 ];
 
