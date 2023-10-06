@@ -51,3 +51,20 @@ export const protectedRouteForOwner = (req: Request, res: Response, next: NextFu
     error: "Not an owner",
   });
 };
+
+/**
+ * A middleware that checks if at least on of the fields is provided in the request body.
+ *
+ * @param {fields} [x] - An array of fields.
+ * @returns {Response || next()} Response or next.
+ */
+export const fieldRequirements = (fields: string[]) => (req: Request, res: Response, next: NextFunction) => {
+  const fieldsProvided = fields.filter((field) => req.body[field] !== undefined);
+
+  if (fieldsProvided.length < 1) {
+    return res
+      .status(400)
+      .json({ data: null, message: "", error: `At least one of (${fields.flatMap((field) => field)}) must be provided` });
+  }
+  next();
+};

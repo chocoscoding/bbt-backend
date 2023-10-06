@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest Auth.test.ts && jest Category.test.ts && jest  Styles.test.ts",
+    "test": "jest",
     "dev": "nodemon src/index.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"

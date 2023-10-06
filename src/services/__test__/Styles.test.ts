@@ -3,30 +3,29 @@ import * as Styles from "../Style";
 import * as Category from "../Category";
 import prisma from "../../db";
 
-
 beforeAll(async () => {
-  await prisma.category.deleteMany({ where: { name: "test" } });
+  await prisma.category.deleteMany({ where: { name: "styletest" } });
   const testdata = {
-    name: "test",
-    coverImage: "test",
+    name: "styletest",
+    coverImage: "styletest",
   };
   const { data, statusCode, message, error } = await Category.createCategory(testdata);
   expect(data).toHaveProperty("id");
   expect(statusCode).toBe(200);
 });
 
-
 let styleId = "";
 
 describe("style service", () => {
   test("should create a new styles", async () => {
     const testdata = (num: number) => ({
-      name: `test${num}`,
-      description: `test${num}`,
-      stylePictures: [`test${num}`],
+      name: `styletest${num}`,
+      description: `styletest${num}`,
+      coverPicture: `styletest${num}`,
+      stylePictures: [`styletest${num}`],
       averageTime: 3,
-      categoryName: `test`,
-      note: `test${num}`,
+      categoryName: `styletest`,
+      note: `styletest${num}`,
     });
     const promises = await Promise.all([
       (Styles.createStyle(testdata(1)), Styles.createStyle(testdata(2)), Styles.createStyle(testdata(3))),
@@ -38,11 +37,12 @@ describe("style service", () => {
   });
   test("should not create a duplicate style", async () => {
     const testdata = {
-      name: "test3",
+      name: "styletest3",
       description: "test",
+      coverPicture: "test",
       stylePictures: ["test"],
       averageTime: 3,
-      categoryName: "test",
+      categoryName: "styletest",
       note: "test",
     };
     const { statusCode, error, data, message } = await Styles.createStyle(testdata);
@@ -52,16 +52,16 @@ describe("style service", () => {
   test("should edit a style", async () => {
     const testdata = {
       id: styleId,
-      name: "test4",
+      name: "styletest4",
     };
     const { data, statusCode } = await Styles.editOneStyle(testdata);
-    expect(data?.name).toBe("test4");
+    expect(data?.name).toBe("styletest4");
     expect(statusCode).toBe(200);
   });
   test("should not update onto category that doesn't exist", async () => {
     const testdata = {
       id: styleId,
-      categoryName: "test5",
+      categoryName: "styletest5",
     };
     const { error, statusCode } = await Styles.editOneStyle(testdata);
     expect(error).toBe("category does not exist");
@@ -69,17 +69,17 @@ describe("style service", () => {
   });
   test("should get one style", async () => {
     const testdata = {
-      name: "test4",
+      name: "styletest4",
     };
 
     const { data, statusCode } = await Styles.getOneStyle(testdata);
-    expect(data?.name).toBe("test4");
+    expect(data?.name).toBe("styletest4");
     expect(statusCode).toBe(200);
   });
   test("should get multiple styles", async () => {
     const { data, statusCode } = await Styles.getAllStyles({ page: 1 });
 
-    const testStyles = data?.filter((ele) => ele.name.includes("test"));
+    const testStyles = data?.filter((ele) => ele.name.includes("styletest"));
     expect(testStyles?.length).toBeGreaterThan(2);
     expect(statusCode).toBe(200);
   });
@@ -95,7 +95,7 @@ describe("style service", () => {
   });
   test("should delete multiple styles", async () => {
     const idLists = await prisma.style.findMany({
-      where: { name: { contains: "test" } },
+      where: { name: { contains: "styletest" } },
       select: { id: true },
     });
     const styleIds = idLists.map((ele) => ele.id);

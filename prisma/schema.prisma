@@ -89,6 +89,7 @@ model Style{
     name String @unique
     description String
     stylePictures String[]
+    coverPicture String
     categoryId String @db.ObjectId
     averageTime Int
     note String?

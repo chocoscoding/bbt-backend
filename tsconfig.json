@@ -10,5 +10,5 @@
     "esModuleInterop": true,
     "typeRoots": ["@types"]
   },
-  "include": ["src/**/*.ts", "@types/index.d.ts"]
+  "include": ["src/**/*.ts", "@types/**/*.d.ts"]
 }

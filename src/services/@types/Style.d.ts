@@ -1,7 +1,9 @@
+import { Style } from "@prisma/client";
 interface CreateStyleInput {
   name: string;
   description: string;
   stylePictures: string[];
+  coverPicture: string;
   averageTime: number;
   categoryName: string;
   note?: string;

@@ -1,11 +1,20 @@
 import prisma from "../db";
 import { ServicesExportType } from "../../@types";
+import {
+  CreateStyleInput,
+  DeleteManyStylesInput,
+  DeleteStyleInput,
+  EditStyleInput,
+  GetOneStyleInput,
+  GetStylesInput,
+  SearchStyleInput,
+} from "./@types/Style";
 import { Style } from "@prisma/client";
 
 const paginationAmount = 30;
 //create a style
 export const createStyle = async (data: CreateStyleInput): ServicesExportType<Style> => {
-  const { name, description, stylePictures, averageTime, categoryName, note } = data;
+  const { name, description, stylePictures, averageTime, categoryName, note,coverPicture } = data;
   try {
     //find a category by name
     const findCategory = await prisma.category.findUnique({
@@ -29,6 +38,7 @@ export const createStyle = async (data: CreateStyleInput): ServicesExportType<St
         name,
         description,
         stylePictures,
+        coverPicture,
         averageTime,
         categoryId: findCategory.id,
         note,
@@ -61,7 +71,7 @@ export const createStyle = async (data: CreateStyleInput): ServicesExportType<St
 //edit one style
 export const editOneStyle = async (data: EditStyleInput): ServicesExportType<Style> => {
   try {
-    const { id, name, description, stylePictures, averageTime, categoryName, note } = data;
+    const { id, name, description, stylePictures,coverPicture, averageTime, categoryName, note } = data;
     let categoryId = undefined;
     if (categoryName) {
       //if the category name is provided
@@ -89,12 +99,13 @@ export const editOneStyle = async (data: EditStyleInput): ServicesExportType<Sty
     const updatedStyle = await prisma.style.update({
       where: { id },
       data: {
-        name,
-        description,
-        stylePictures,
-        averageTime,
-        categoryId,
-        note,
+        ...(name && { name }),
+        ...(description && { description }),
+        ...(stylePictures && { stylePictures }),
+        ...(coverPicture && { coverPicture }),
+        ...(averageTime && { averageTime }),
+        ...(categoryId && { categoryId }),
+        ...(note && { note }),
       },
     });
 
@@ -105,6 +116,7 @@ export const editOneStyle = async (data: EditStyleInput): ServicesExportType<Sty
       statusCode: 200,
     };
   } catch (error: any) {
+    console.log(error);
     let errormessage = null;
     let newStatusCode = 404;
 
@@ -187,22 +199,31 @@ export const deleteMultipleStyles = async (data: DeleteManyStylesInput): Service
 
 //get one style
 export const getOneStyle = async (data: GetOneStyleInput): ServicesExportType<any> => {
+  let message = "";
   try {
     const { name } = data;
     const style = await prisma.style.findUnique({
       where: { name: data.name },
+      include: {
+        category: true,
+      },
     });
+    if (!style) {
+      message = "Style does not exist";
+      throw new Error("Style does not exist");
+    }
+
     return {
       data: style,
       error: "",
-      message: "",
+      message,
       statusCode: 200,
     };
   } catch (error: any) {
     return {
       data: null,
       error: error.message,
-      message: "",
+      message,
       statusCode: 404,
     };
   }

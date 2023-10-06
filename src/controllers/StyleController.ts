@@ -1,7 +1,7 @@
 import * as Service from "../services/Style";
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
-export const createNewCategory = async (req: Request, res: Response, next: NextFunction) => {
+export const createNewStyle = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { data, error, statusCode, message } = await Service.createStyle(req.body);
     res.status(statusCode);
@@ -37,7 +37,7 @@ export const getStyleByName = async (req: Request, res: Response, next: NextFunc
 
 export const editOneStyleById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { data, error, statusCode, message } = await Service.editOneStyle(req.body);
+    const { data, error, statusCode, message } = await Service.editOneStyle({ id: req.params.id, ...req.body });
     res.status(statusCode);
     res.json({ data, error, message });
     return;
