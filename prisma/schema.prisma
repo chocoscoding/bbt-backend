@@ -20,9 +20,13 @@ model User {
     accountType AccountType @default(USER)
     username String
     image String?
-
+    preferredTheme Theme @default(LIGHT)
     emailVerified Boolean @default(true)
     accounts Account[]
+}
+enum Theme {
+    DARK
+    LIGHT
 }
 model Manager {
     id String @id @default(auto()) @map("_id") @db.ObjectId

@@ -30,7 +30,7 @@ export const protectedRoute = (req: Request, res: Response, next: NextFunction) 
     });
   }
 };
-export const protectedRouteForManagers = (req: Request, res: Response, next: NextFunction) => {
+export const isManager = (req: Request, res: Response, next: NextFunction) => {
   if (req.user!.accountType === "OWNER" || req.user!.accountType === "ADMIN") {
     next();
     return;
@@ -41,7 +41,7 @@ export const protectedRouteForManagers = (req: Request, res: Response, next: Nex
     error: "Not a manager",
   });
 };
-export const protectedRouteForOwner = (req: Request, res: Response, next: NextFunction) => {
+export const isOwner = (req: Request, res: Response, next: NextFunction) => {
   if (req.user!.accountType === "OWNER") {
     next();
   }

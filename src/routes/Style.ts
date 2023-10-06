@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as Controller from "../controllers/StyleController";
 import { handleInputError } from "../middleware/ErrorHandler";
 import { body, param } from "express-validator";
-import { fieldRequirements, protectedRoute, protectedRouteForManagers } from "../middleware/ProtectedRoute";
+import { fieldRequirements, protectedRoute, isManager } from "../middleware/ProtectedRoute";
 const router = Router();
 
 router.get("/", Controller.getAllStyles);
@@ -11,7 +11,7 @@ router.get("/search", Controller.searchStylesByName);
 router.post(
   "/create",
   protectedRoute,
-  protectedRouteForManagers,
+  isManager,
   body("name").exists().isString().notEmpty(),
   body("description").exists().isString().notEmpty(),
   body("coverPicture").exists().isString().notEmpty(),
@@ -25,7 +25,7 @@ router.post(
 router.put(
   "/edit/:id",
   protectedRoute,
-  protectedRouteForManagers,
+  isManager,
   fieldRequirements(["name", "description", "stylePictures", "averageTime", "categoryName", "note", "coverPicture"]),
   body("name").optional().isString().notEmpty(),
   body("description").optional().isString().notEmpty(),
@@ -37,11 +37,11 @@ router.put(
   handleInputError,
   Controller.editOneStyleById
 );
-router.delete("/delete/:id", protectedRoute, protectedRouteForManagers, handleInputError, Controller.deleteOneStyleById);
+router.delete("/delete/:id", protectedRoute, isManager, handleInputError, Controller.deleteOneStyleById);
 router.delete(
   "/delete",
   protectedRoute,
-  protectedRouteForManagers,
+  isManager,
   body("ids").exists().isArray({ min: 1 }),
   handleInputError,
   Controller.deleteMultipleStylesById
