@@ -7,3 +7,9 @@ declare module "express-serve-static-core" {
     manager?: JWT_UserType;
   }
 }
+
+declare module "express" {
+  interface ErrorRequestHandler {
+    location?: string;
+  }
+}

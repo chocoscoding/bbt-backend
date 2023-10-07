@@ -58,7 +58,7 @@ type address {
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String?  @db.ObjectId
-  managerId            String?  @db.ObjectId
+  managerId         String?  @db.ObjectId
   type              String
   provider          String
   providerAccountId String
@@ -96,7 +96,8 @@ model Style{
 
 model Category{
     id String @id @default(auto()) @map("_id") @db.ObjectId
-    name String
+    name String @unique
+    coverImage String
     styles Style[]
 }
 model Booking {

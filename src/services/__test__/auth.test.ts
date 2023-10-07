@@ -88,7 +88,6 @@ describe("auth controller", () => {
       oldPassword: "123456789",
       id: managerid,
     };
-    console.log(managerid);
 
     const { data, statusCode, message, error } = await auth.resetPasswordManager(testdata);
 

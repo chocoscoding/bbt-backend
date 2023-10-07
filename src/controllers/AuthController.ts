@@ -8,7 +8,7 @@ export const userSignup = async (req: Request, res: any, next: NextFunction) => 
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(404);
+    res.status(500);
     res.json({ error: error.message });
     return;
   }
@@ -21,7 +21,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(404);
+    res.status(500);
     res.json({ error: error.message });
     return;
   }
@@ -39,7 +39,7 @@ export const userResetpassword = async (req: Request, res: Response, next: NextF
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(404);
+    res.status(500);
     res.json({ error: error.message });
     return;
   }
@@ -57,7 +57,7 @@ export const managerSignup = async (req: Request, res: Response, next: NextFunct
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(404);
+    res.status(500);
     res.json({ error: error.message });
     return;
   }
@@ -70,7 +70,7 @@ export const managerLogin = async (req: Request, res: Response, next: NextFuncti
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(404);
+    res.status(500);
     res.json({ error: error.message });
     return;
   }
@@ -88,7 +88,7 @@ export const ManagerResetpassword = async (req: Request, res: Response, next: Ne
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(404);
+    res.status(500);
     res.json({ error: error.message });
     return;
   }

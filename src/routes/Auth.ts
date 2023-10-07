@@ -3,7 +3,6 @@ import { managerLogin, managerSignup, userLogin, userResetpassword, userSignup }
 import { handleInputError } from "../middleware/ErrorHandler";
 import { loginMiddleware, resetPasswordMiddleware, signupMiddleware } from "../middleware/InputMiddlewareChaining";
 import { protectedRoute, protectedRouteForManager } from "../middleware/ProtectedRoute";
-import { Express } from "express";
 
 const router = Router();
 
