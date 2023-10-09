@@ -2,7 +2,6 @@ import express, { ErrorRequestHandler, Request } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { Auth, Category } from "./routes";
-import { protectedRoute } from "./middleware/ProtectedRoute";
 import { errorHandler } from "./middleware/ErrorHandler";
 
 const app = express();

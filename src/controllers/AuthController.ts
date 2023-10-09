@@ -8,9 +8,7 @@ export const userSignup = async (req: Request, res: any, next: NextFunction) => 
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(500);
-    res.json({ error: error.message });
-    return;
+    next(error);
   }
 };
 
@@ -21,9 +19,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(500);
-    res.json({ error: error.message });
-    return;
+    next(error);
   }
 };
 
@@ -39,9 +35,7 @@ export const userResetpassword = async (req: Request, res: Response, next: NextF
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(500);
-    res.json({ error: error.message });
-    return;
+    next(error);
   }
 };
 
@@ -57,9 +51,7 @@ export const managerSignup = async (req: Request, res: Response, next: NextFunct
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(500);
-    res.json({ error: error.message });
-    return;
+    next(error);
   }
 };
 
@@ -70,9 +62,7 @@ export const managerLogin = async (req: Request, res: Response, next: NextFuncti
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(500);
-    res.json({ error: error.message });
-    return;
+    next(error);
   }
 };
 
@@ -80,7 +70,7 @@ export const ManagerResetpassword = async (req: Request, res: Response, next: Ne
   try {
     const { newPassword, oldPassword } = req.body;
     const { data, error, statusCode, message } = await resetPasswordUser({
-      id: req.manager?.id,
+      id: req.user?.id,
       newPassword,
       oldPassword,
     });
@@ -88,8 +78,6 @@ export const ManagerResetpassword = async (req: Request, res: Response, next: Ne
     res.json({ data, error, message });
     return;
   } catch (error: any) {
-    res.status(500);
-    res.json({ error: error.message });
-    return;
+    next(error);
   }
 };

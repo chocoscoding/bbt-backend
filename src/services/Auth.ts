@@ -89,7 +89,7 @@ export const createManager = async (userData: CreateManagerType): ServicesExport
     };
   } catch (error: any) {
     console.log(error.message);
-    if (error.message.includes("User_email_key"))
+    if (error.message.includes("Manager_email_key"))
       return {
         data: null,
         error: "Email is already taken",

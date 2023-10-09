@@ -4,8 +4,6 @@ import morgan from "morgan";
 import customLogger from "../logs/Customlog";
 
 export const errorHandler = (error: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
-  customLogger.fatal(`location: ${
-    error.location}`);
   return res.status(500).json({ data: null, error: "oops, that's on us", message: "oops, that's on us" });
 };
 

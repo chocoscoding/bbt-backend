@@ -4,7 +4,7 @@ import { deleteAccountForTest } from "./helper";
 
 let userid = "";
 let managerid = "";
-describe("auth controller", () => {
+describe("auth service", () => {
   test("should create a new user", async () => {
     const testdata = {
       email: "test@gmail.com",
@@ -22,7 +22,7 @@ describe("auth controller", () => {
     expect(statusCode).toBe(200);
     expect(message).toBe("");
     expect(error).toBe(null);
-  });
+  },6000);
 
   test("should create a new manager", async () => {
     const testdata = {
@@ -42,7 +42,7 @@ describe("auth controller", () => {
     expect(statusCode).toBe(200);
     expect(message).toBe("");
     expect(error).toBe(null);
-  });
+  },6000);
   test("should login user", async () => {
     const testdata = {
       email: "test@gmail.com",

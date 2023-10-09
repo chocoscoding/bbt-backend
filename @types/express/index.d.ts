@@ -4,7 +4,6 @@ import { JWT_UserType } from "../../src/services/@types/Auth";
 declare module "express-serve-static-core" {
   interface Request {
     user?: JWT_UserType;
-    manager?: JWT_UserType;
   }
 }
 

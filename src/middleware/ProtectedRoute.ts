@@ -30,40 +30,24 @@ export const protectedRoute = (req: Request, res: Response, next: NextFunction) 
     });
   }
 };
-export const protectedRouteForManager = (req: Request, res: Response, next: NextFunction) => {
-  const bearer = req.headers.authorization;
-
-  if (!bearer) {
-    return res.status(401).json({
-      data: null,
-      error: "Not authorized",
-    });
+export const protectedRouteForManagers = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user!.accountType === "OWNER" || req.user!.accountType === "ADMIN") {
+    next();
+    return;
   }
-
-  const [, token] = bearer.split(" ");
-  if (!token) {
-    return res.status(401).json({
-      data: null,
-      error: "Not authorized",
-    });
+  return res.status(401).json({
+    data: null,
+    message: null,
+    error: "Not a manager",
+  });
+};
+export const protectedRouteForOwner = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user!.accountType === "OWNER") {
+    next();
   }
-
-  try {
-    const manager = jwt.verify(token, process.env.JWT_SECRET as string) as JWT_UserType;
-    if (manager.accountType === "OWNER" || manager.accountType === "ADMIN") {
-      req.manager = manager;
-      next();
-    }
-    return res.status(401).json({
-      data: null,
-      message: null,
-      error: "Not a manager",
-    });
-  } catch (error) {
-    return res.status(401).json({
-      data: null,
-      message: null,
-      error: "Not authorized",
-    });
-  }
+  return res.status(401).json({
+    data: null,
+    message: null,
+    error: "Not an owner",
+  });
 };
